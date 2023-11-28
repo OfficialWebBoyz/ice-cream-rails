@@ -1,12 +1,21 @@
-<h1>Flavors</h1>
-<p>Find me in app/views/flavors/index.html.erb</p>
+<main class='container px-3'>
+  <h1>Flavors</h1>
+  <p>Find me in app/views/flavors/index.html.erb</p>
 
-<div style='display: flex; gap: 1em; flex-wrap: wrap;'>
-  <% @display_names.each do |name| %>
-    <div style='border-radius: 23px; border: 1px solid black; padding: 1em;'>
-      <span>
-        <%= name %>
-      </span>
+  <%# close by default on mobile, need to hook up js %>
+  <details class='grid gap-3 py-3' open>
+    <summary class='font-bold cursor-pointer'>
+      Flavors
+    </summary>
+    <div class='flex flex-wrap gap-3 items-start'>
+      <% @display_names.each do |name| %>
+        <div 
+          class='border-gray-500 border rounded-3xl p-3'>
+          <span>
+            <%= name %>
+          </span>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
+  </details>
+</main>
