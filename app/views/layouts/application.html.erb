@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>IceCreamRails</title>
+    <title>A-Ice cream</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
-
   <body class='prose max-w-none'>
+    <a href='#main' class='-translate-y-52 focus:translate-y-0 duration-300 transition-all absolute top-0 left-0 m-3'>Skip to content</a>
     <nav></nav>
     <%= yield %>
   </body>
