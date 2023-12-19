@@ -8,9 +8,59 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
+  <%#  %>
+  <% links = [
+    {
+      text: 'Flavors', 
+      href: '/flavors', 
+      sub_items: [
+        {text: 'Item', href: '/flavors'},
+        {text: 'Item 2', href: '/flavors'},
+      ]
+    },
+    {
+      text: 'Home', 
+      href: '/', 
+    },
+  ] %>
   <body class='prose max-w-none'>
     <a href='#main' class='-translate-y-52 focus:translate-y-0 duration-300 transition-all absolute top-0 left-0 m-3'>Skip to content</a>
-    <nav></nav>
+    <nav class="navbar bg-base-100">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl">A.Ice Cream <span role='img' aria-label='ice-cream'>🍨</span></a>
+      </div>
+      <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+          <% links.each do |link| %>
+            <%# add to helper %>
+            <% if (link[:sub_items]&.length || 0) > 0 %>
+              <li>
+                <details>
+                  <summary>
+                    <%= link[:text] %>
+                  </summary>
+                  <ul>
+                    <% link[:sub_items]&.each do |sub_item| %>
+                      <li>
+                        <a href="<%= sub_item[:href] %>">
+                          <%= sub_item[:text] %>
+                        </a>
+                      </li>
+                    <% end %>
+                  </ul>
+                </details>
+              </li>
+            <% else %>
+              <li>
+                <a href="<%= link[:href] %>" class="active:text-green-400">
+                  <%= link[:text] %>
+                </a>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
     <%= yield %>
   </body>
 </html>

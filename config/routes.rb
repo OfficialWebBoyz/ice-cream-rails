@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'flavors#index'
   get '/flavors', to: 'flavors#index'
+  get '/flavors/:id', to: 'flavors#flavor', as: 'flavor'
+  get '/flavors/:id/edit', to: 'flavors#edit', as: 'edit_flavor'
+  patch '/flavors/:id', to: 'flavors#update', as: 'update_flavor'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

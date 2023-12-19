@@ -1,21 +1,28 @@
-<main class='container px-3'>
+<main id='main' class='container px-3'>
   <h1>Flavors</h1>
   <p>Find me in app/views/flavors/index.html.erb</p>
-
   <%# close by default on mobile, need to hook up js %>
-  <details class='grid gap-3 py-3' open>
-    <summary class='font-bold cursor-pointer'>
-      Flavors
-    </summary>
-    <div class='flex flex-wrap gap-3 items-start'>
-      <% @display_names.each do |name| %>
-        <div 
-          class='border-gray-500 border rounded-3xl p-3'>
-          <span>
-            <%= name %>
-          </span>
-        </div>
-      <% end %>
-    </div>
-  </details>
+  <div class='grid gap-3 py-3'>
+    <aside>
+      <select name="categories" id="flavor-categories" class="select select-bordered w-full max-w-xs">
+        <option disabled selected value="">--Please choose an option--</option>
+        <% @categories.each do |category| %>
+          <option value="<%= category %>"><%= category %></option>
+        <% end %>
+      </select>
+    </aside>
+    <details class='contents' open>
+      <summary class='font-bold cursor-pointer'>
+        Flavors
+      </summary>
+      <div class='flex flex-wrap gap-3 items-start'>
+        <% @flavors.each do |flavor| %>
+          <div 
+            class='border-gray-500 border rounded-3xl p-3'>
+            <%= link_to flavor.name, flavor %>
+          </div>
+        <% end %>
+      </div>
+    </details>
+  </div>
 </main>

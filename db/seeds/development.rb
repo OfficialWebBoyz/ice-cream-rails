@@ -25,3 +25,15 @@ DISPLAY_NAMES.each do |name|
     sku: name.downcase.gsub(/[^\d\w]/, '')
   )
 end
+
+# 1 ice cream to many categories
+# In the admin I want to be able to modify related values for categories
+CATEGORIES = %w[
+  uncommon
+  contains-chocolate
+  vegan
+  non-dairy
+  fruity
+  contains-nuts
+  low-sugar
+].freeze # 1:M -> Cetegory:Related_Categories

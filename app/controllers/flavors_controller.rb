@@ -21,6 +21,33 @@ class FlavorsController < ApplicationController
   def index
     @categories = CATEGORIES
     # TODO: paginate
+    @flavors = Flavor.all
     @display_names = Flavor.all.map(&:name)
+  end
+
+  def flavor
+    # handle errors
+    # get allowed params
+    @flavor = Flavor.find(params[:id])
+  end
+
+  def edit
+    @flavor = Flavor.find(params[:id])
+  end
+
+  # not creating a remplate for this action enables me to submit the form without triggering a redirect!
+  def update
+    updates = params.permit(:name)
+    flavor = Flavor.find(params.require(:id))
+    raise unless flavor
+
+    flash[:error] = 'Error with form submission'
+    redirect_back(fallback_location: edit_flavor_path(flavor))
+
+    return flash[:error]
+
+    flavor.update!(**updates)
+
+    redirect_to(flavor_path(flavor))
   end
 end
