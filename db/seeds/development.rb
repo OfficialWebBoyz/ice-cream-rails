@@ -37,3 +37,7 @@ CATEGORIES = %w[
   contains-nuts
   low-sugar
 ].freeze # 1:M -> Cetegory:Related_Categories
+
+CATEGORIES.each do |d|
+  Category.create(name: d)
+end
