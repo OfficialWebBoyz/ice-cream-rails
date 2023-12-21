@@ -11,15 +11,16 @@
     </p>
   <% end %>
   <%# form %>
-  <%= form_with(method: :patch, url: update_flavor_path(@flavor)) do %>
+  <%= form_with(method: :patch, url: flavor_path(@flavor)) do %>
     <div class="flex flex-col gap-3">
       <label class="form-control" for="name">Name</label>
-      <input 
+      <input
+      autofocus 
       class="input input-bordered w-full max-w-xs" 
       type="text" name="name" id="name" value="<%= @flavor.name %>">
-      <button type="submit" class="btn btn-primary w-fit">
-        Save
-      </button>
-    </div>
-  <% end %>
-</main>
+        <button type="submit" class="btn btn-primary w-fit">
+          Save
+        </button>
+      </div>
+    <% end %>
+  </main>

@@ -1,53 +1,59 @@
 # frozen_string_literal: true
 
 class FlavorsController < ApplicationController
-  # 1 ice cream to many categories
-  # In the admin I want to be able to modify related values for categories
-  CATEGORIES = %w[
-    uncommon
-    contains-chocolate
-    vegan
-    non-dairy
-    fruity
-    contains-nuts
-    low-sugar
-  ].freeze # 1:M -> Cetegory:Related_Categories
-
   # In the admin I should be able to edit these, add these, remove these ice cream flavors
   # Wouldn't it be cool if you could get ai to assign key words to a particular flavor based
   # on feedback/comments from customers and use that for a recommendation engine
   DISPLAY_NAMES = [].freeze
 
   def index
-    @categories = CATEGORIES
+    @categories = Category.all.map(&:name)
     # TODO: paginate
     @flavors = Flavor.all
     @display_names = Flavor.all.map(&:name)
+    # TODO: handle filters on the model to only return filtered flavors
+    @filters = {
+      categories: [*(params[:categories] || [])]
+    }
   end
 
-  def flavor
+  def show
     # handle errors
     # get allowed params
-    @flavor = Flavor.find(params[:id])
+    @flavor = Flavor.find(id)
   end
 
   def edit
-    @flavor = Flavor.find(params[:id])
+    @flavor = Flavor.find(id)
   end
 
-  # not creating a remplate for this action enables me to submit the form without triggering a redirect!
+  # not creating a template for this action enables me to submit the form without triggering a redirect!
   def update
-    updates = params.permit(:name)
-    flavor = Flavor.find(params.require(:id))
+    flavor = Flavor.find(id)
     raise unless flavor
 
-    flash[:error] = 'Error with form submission'
-    redirect_back(fallback_location: edit_flavor_path(flavor))
+    updates = params.permit(:name)
+    unless flavor.update(updates)
+      flash[:error] = handle_errors(flavor)
+      redirect_back(fallback_location: edit_flavor_path(flavor))
+    end
 
-    return flash[:error]
+    return unless flash.empty?
 
-    flavor.update!(**updates)
+    redirect_to(flavor_path(flavor)) if flavor.save
+  end
 
-    redirect_to(flavor_path(flavor))
+  private
+
+  def handle_errors(flavor)
+    if flavor.errors.size == 1
+      flavor.errors.full_messages[0]
+    else
+      'Error with form submission'
+    end
+  end
+
+  def id
+    params.require(:id)
   end
 end
