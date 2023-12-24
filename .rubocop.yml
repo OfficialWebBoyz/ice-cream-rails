@@ -3,5 +3,8 @@ require: rubocop-rails
 Documentation:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/BlockLength:
   AllowedMethods: ['describe', 'context', 'configure']

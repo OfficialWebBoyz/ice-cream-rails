@@ -15,9 +15,12 @@
     <div class="flex flex-col gap-3">
       <label class="form-control" for="name">Name</label>
       <input
-      autofocus 
-      class="input input-bordered w-full max-w-xs" 
-      type="text" name="name" id="name" value="<%= @flavor.name %>">
+        autofocus 
+        class="<%= class_names(
+          'input input-bordered w-full max-w-xs', 
+          !flash.empty? && 'border-red'
+        ) %>"
+        type="text" name="name" id="name" value="<%= @flavor.name %>">
         <button type="submit" class="btn btn-primary w-fit">
           Save
         </button>

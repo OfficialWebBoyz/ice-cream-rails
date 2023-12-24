@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class FlavorsController < ApplicationController
+  # after_action -> { flash.discard }
+
   # In the admin I should be able to edit these, add these, remove these ice cream flavors
   # Wouldn't it be cool if you could get ai to assign key words to a particular flavor based
   # on feedback/comments from customers and use that for a recommendation engine
@@ -29,18 +31,16 @@ class FlavorsController < ApplicationController
 
   # not creating a template for this action enables me to submit the form without triggering a redirect!
   def update
-    flavor = Flavor.find(id)
-    raise unless flavor
+    @flavor = Flavor.find(id)
+    raise unless @flavor
 
     updates = params.permit(:name)
-    unless flavor.update(updates)
-      flash[:error] = handle_errors(flavor)
-      redirect_back(fallback_location: edit_flavor_path(flavor))
+    unless @flavor.update(updates)
+      flash[:error] = handle_errors(@flavor)
+      render :edit, status: :unprocessable_entity
     end
 
-    return unless flash.empty?
-
-    redirect_to(flavor_path(flavor)) if flavor.save
+    redirect_to @flavor if @flavor.save
   end
 
   private
