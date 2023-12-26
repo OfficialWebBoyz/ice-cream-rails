@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Flavor < ApplicationRecord
+  has_many :flavor_category, dependent: nil
+  has_many :categories, through: :flavor_category, dependent: nil
+
   validates :name, presence: true
 
   # TODO: create a method to create the sku when a new event is created
