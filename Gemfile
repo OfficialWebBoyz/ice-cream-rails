@@ -55,15 +55,15 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  gem 'sorbet'
+  # Tools for generating RBI files, which allow Sorbet to interoperate with gems and metaprogramming
+  gem 'tapioca', require: false
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw]
 end
 
 group :development do
-  gem 'sorbet'
-  # Tools for generating RBI files, which allow Sorbet to interoperate with gems and metaprogramming
-  gem 'tapioca', require: false
-
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 

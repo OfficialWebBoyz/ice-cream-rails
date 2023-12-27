@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: true
 
 class Category < ApplicationRecord
   has_many :flavor_category, dependent: nil

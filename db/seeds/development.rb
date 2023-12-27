@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: true
 
 DISPLAY_NAMES = [
   'Chocolate chip cookie dough',
