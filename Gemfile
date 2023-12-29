@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.4.0.dev'
+ruby '~> 3.1.1'
 
 # This will automatically configure your Tailwind setup based on the official Rails example
 gem 'tailwindcss-rails', '~> 2.0'
