@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: true
 
 class FlavorsController < ApplicationController
   # after_action -> { flash.discard }
@@ -6,7 +7,6 @@ class FlavorsController < ApplicationController
   # In the admin I should be able to edit these, add these, remove these ice cream flavors
   # Wouldn't it be cool if you could get ai to assign key words to a particular flavor based
   # on feedback/comments from customers and use that for a recommendation engine
-  DISPLAY_NAMES = [].freeze
 
   def index
     @categories = Category.all.map(&:name)
@@ -15,7 +15,7 @@ class FlavorsController < ApplicationController
     @display_names = Flavor.all.map(&:name)
     # TODO: handle filters on the model to only return filtered flavors
     @filters = {
-      categories: [*(params[:categories] || [])]
+      categories: params.fetch(:categories, [])
     }
   end
 
@@ -45,6 +45,7 @@ class FlavorsController < ApplicationController
 
   private
 
+  sig { params(flavor: Flavor).returns(T.nilable(String)) }
   def handle_errors(flavor)
     if flavor.errors.size == 1
       flavor.errors.full_messages[0]
@@ -53,6 +54,7 @@ class FlavorsController < ApplicationController
     end
   end
 
+  sig { returns(String) }
   def id
     params.require(:id)
   end
