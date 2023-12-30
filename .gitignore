@@ -39,3 +39,4 @@
 
 # We don't care about node modules :)
 node_modules
+/node_modules

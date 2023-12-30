@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 
 ruby '~> 3.1.1'
 
+# https://github.com/rails/jsbundling-rails
+gem 'jsbundling-rails', '~> 1.2'
+
 # This will automatically configure your Tailwind setup based on the official Rails example
 gem 'tailwindcss-rails', '~> 2.0'
 
