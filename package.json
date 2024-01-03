@@ -2,7 +2,7 @@
   "name": "ice-cream-rails",
   "version": "1.0.0",
   "description": "This README would normally document whatever steps are necessary to get the application up and running.",
-  "main": "index.js",
+  "main": "application.js",
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -11,9 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bun bun.config.js"
   },
-  "keywords": [
-
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {

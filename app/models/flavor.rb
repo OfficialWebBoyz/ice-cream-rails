@@ -12,6 +12,13 @@ class Flavor < ApplicationRecord
     # combine date string, with flavor name combo
   end
 
+  sig { params(categories: T::Array[String]).returns(T.untyped) }
+  def self.by_categories(categories = [])
+    Flavor.all.select do |f|
+      f.categories.select { |c| categories.include?(c.name) }.count.positive?
+    end
+  end
+
   # TODO: connect with a frozen record class that can get all of the required prices for flavors
   # convert currency based on the user that is currently signed in saved in their settings
   def price

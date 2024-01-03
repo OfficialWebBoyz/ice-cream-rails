@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html,
+  body,
+  #main {
+    @apply h-full;
+  }
+}
+
 @layer utilities {
   .container {
     @apply max-w-6xl mx-auto;

@@ -1,34 +1,107 @@
-<main id='main' class='container px-3'>
+<script>
+  const openDialog = () => {
+    const dialog = document.getElementById("dialog");
+    dialog?.showModal();
+  };
+  const closeDialog = () => {
+    const dialog = document.getElementById("dialog");
+    dialog?.close();
+  };
+</script>
+
+<main id="main" class="container px-3">
   <%# close by default on mobile, need to hook up js %>
-  <div class='grid grid-cols-[2fr,1fr] gap-3 py-3'>
+  <div class="grid grid-cols-[2fr,1fr] gap-3 py-3">
     <div>
       <h1>Flavors</h1>
-      <details class='contents'>
-        <summary class='font-bold cursor-pointer'>
-          Flavors
-        </summary>
-        <div class='flex flex-wrap gap-3 items-start'>
+      <details class="contents">
+        <summary class="font-bold cursor-pointer">Flavors</summary>
+        <div class="flex flex-wrap gap-3 items-start">
           <% @flavors.each do |flavor| %>
-            <div 
-            class='border-gray-500 border rounded-3xl p-3'>
+            <div class="border-gray-500 border rounded-3xl p-3">
               <%= link_to flavor.name, flavor %>
             </div>
           <% end %>
         </div>
       </details>
     </div>
+
     <aside>
       <h2>Filter flavors</h2>
-      <form name='filter' action="<%= flavors_path %>" method="get" class="grid gap-3">
-        <select multiple name="categories[]" id="flavor-categories" class="select select-bordered w-full">
-          <option disabled selected value="">--Please choose an option--</option>
-          <% @categories.each do |category| %>
-            <% selected = category.in?(@filters[:categories]) %>
-            <option <%= "selected" if selected %> value="<%= category %>"><%= category %></option>
-          <% end %>
-        </select>
-        <button class="btn btn-primary" type="submit">Filter</button>
-      </form>
+      <%# want to hook up js %>
+      <output></output>
+      <dialog id="dialog" class="p-6 rounded-xl min-w-80">
+        <h2>Filter flavors</h2>
+
+        <%# hidden fields for form reset %>
+        <form
+          <%# method="dialog" %>
+          class="flex flex-col gap-3 justify-between"
+          id="filter-reset"
+          action="<%= flavors_path %>"
+          method="get"
+        >
+          <input type="hidden" name="sample" value="" />
+          <input type="hidden" name="categories[]" value="" />
+        </form>
+
+        <form
+          <%# method="dialog" %>
+          class="flex flex-col gap-3 justify-between"
+          id="filter-form"
+          action="<%= flavors_path %>"
+          method="get"
+        >
+          <div class="grid gap-3">
+            <div>
+              <label class="form-control" for="sample"> Sample </label>
+              <input
+                type="text"
+                name="sample"
+                id="sample"
+                class="input input-primary w-full"
+                value="<%= @filters[:sample] %>"
+                autofocus
+              />
+            </div>
+
+            <select
+              multiple
+              name="categories[]"
+              id="flavor-categories"
+              class="select select-bordered w-full select-multiple"
+            >
+              <option disabled value="">--Please choose an option--</option>
+              <% @categories.each do |category| %>
+                <% selected = category.in?(@filters[:categories]) %>
+                <option <%= 'selected' if selected %> value="<%= category %>">
+                  <%= category %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="flex justify-between w-full gap-3">
+            <button
+              class="btn btn-ghost"
+              value="cancel"
+              type="submit"
+              formmethod="dialog"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-secondary" type="submit" form="filter-reset">
+              Clear filters
+            </button>
+            <button class="btn btn-primary" type="submit" formnovalidate>
+              Filter
+            </button>
+          </div>
+        </form>
+      </dialog>
+      <p>
+        <button onclick="openDialog()">Show the dialog</button>
+      </p>
     </aside>
   </div>
 </main>

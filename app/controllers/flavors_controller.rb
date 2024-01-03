@@ -8,15 +8,51 @@ class FlavorsController < ApplicationController
   # Wouldn't it be cool if you could get ai to assign key words to a particular flavor based
   # on feedback/comments from customers and use that for a recommendation engine
 
+  class Filters
+    extend T::Sig
+
+    attr_reader :flavors
+
+    sig { params(categories: T::Array[String], sample: T.nilable(String)).void }
+    def initialize(categories:, sample: '')
+      @categories = categories
+      @sample = sample
+      @flavors = flavors_by_categories
+    end
+
+    def all_flavors
+      Flavor.all
+    end
+
+    def flavors_by_categories
+      filtered = Flavor.by_categories(@categories)
+
+      return all_flavors unless filtered.count.positive?
+
+      filtered
+    end
+
+    def to_h
+      {
+        categories: @categories,
+        sample: @sample || ''
+      }
+    end
+  end
+
   def index
+    filters = Filters.new(
+      categories: params.fetch(:categories, []),
+      sample: params.fetch(:sample, '')
+    )
+    @flavors = filters.flavors
+
+    # TODO: handle filters on the model to only return filtered flavors
+    @filters = filters.to_h
+
     @categories = Category.all.map(&:name)
     # TODO: paginate
-    @flavors = Flavor.all
-    @display_names = Flavor.all.map(&:name)
-    # TODO: handle filters on the model to only return filtered flavors
-    @filters = {
-      categories: params.fetch(:categories, [])
-    }
+    @display_names = @flavors.map(&:name)
   end
 
   def show
